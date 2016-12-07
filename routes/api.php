@@ -43,11 +43,11 @@ Route::group(['middleware' => ['authapi']], function () {
     # Logged
     Route::group(['middleware' => ['\App\Http\Middleware\LoggedPrivilegeMiddleware']], function () {
         Route::resource('users', 'UsersController', ['only' => [
-            'index'
+            'index', 'show'
         ]]);
 
         Route::resource('items', 'ItemsController', ['only' => [
-            'index'
+            'index', 'show'
         ]]);
     });
 
