@@ -5,7 +5,7 @@ namespace App;
 use App\Http\Requests;
 use app\Libraries\Structure\SessionToken;
 use Closure;
-use PluginCommonSurvey\Libraries\Codes;
+use PluginCommonKurir\Libraries\Codes;
 
 trait TraitPrivilegeMiddleware
 {
