@@ -230,12 +230,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Slug Hash Password
+    | Salt Hash Password
     |--------------------------------------------------------------------------
     |
     |
-    | Slug additional for hashing password
+    | Salt additional for hashing password
     |
     */
-    'password_slug' => 'LKKJaNAKJAoowmwioIA*SZ&%MLPASDASD_AS_::aajjjsiukkMNjykPUSUS$VBBg#',
+    'password_salt' => 'LKKJaNAKJAoowmwioIA*SZ&%MLPASDASD_AS_::aajjjsiukkMNjykPUSUS$VBBg#',
 ];

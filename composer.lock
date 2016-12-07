@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0e0d6c48e31cd44fa8a5c8f0050811b0",
-    "content-hash": "1df7ead48ed91f8511f20d4b118bc771",
+    "hash": "6355160d8330f7b0de68ad02c1632522",
+    "content-hash": "2f8e36ce26a4d81b6f40444a421ff47a",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -222,17 +222,17 @@
             "time": "2016-07-14 12:33:35"
         },
         {
-            "name": "harryosmar/plugin-survey-common",
+            "name": "harryosmar/plugin-kurir-common",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/harryosmar/plugin-survey-common.git",
-                "reference": "da50f7765849d50b9f648d0e2339b4d22cd883b5"
+                "url": "https://github.com/harryosmar/plugin-kurir-common.git",
+                "reference": "af7e982d5a6cac2a9557f5f100111aabb9f2b8d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/harryosmar/plugin-survey-common/zipball/da50f7765849d50b9f648d0e2339b4d22cd883b5",
-                "reference": "da50f7765849d50b9f648d0e2339b4d22cd883b5",
+                "url": "https://api.github.com/repos/harryosmar/plugin-kurir-common/zipball/af7e982d5a6cac2a9557f5f100111aabb9f2b8d4",
+                "reference": "af7e982d5a6cac2a9557f5f100111aabb9f2b8d4",
                 "shasum": ""
             },
             "require": {
@@ -248,7 +248,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "PluginCommonSurvey\\": "src/"
+                    "PluginCommonKurir\\": "src/"
                 },
                 "files": [
                     "src/Helper/functions_include.php"
@@ -256,7 +256,7 @@
             },
             "autoload-dev": {
                 "files": [
-                    "tests/plugin-survey-common/BaseTest.php"
+                    "tests/plugin-kurir-common/BaseTest.php"
                 ]
             },
             "authors": [
@@ -266,18 +266,17 @@
                     "homepage": "https://github.com/harryosmar"
                 }
             ],
-            "description": "PHP Composer Plugin contain common libraries/helper for Survey Project",
-            "homepage": "https://github.com/harryosmar/plugin-survey-common",
+            "description": "PHP Composer Plugin contain common libraries/helper for Kurir Site",
+            "homepage": "https://github.com/harryosmar/plugin-kurir-common",
             "keywords": [
                 "helper",
-                "libaries",
-                "surveyproject"
+                "libaries"
             ],
             "support": {
-                "source": "https://github.com/harryosmar/plugin-survey-common/tree/master",
-                "issues": "https://github.com/harryosmar/plugin-survey-common/issues"
+                "source": "https://github.com/harryosmar/plugin-kurir-common/tree/master",
+                "issues": "https://github.com/harryosmar/plugin-kurir-common/issues"
             },
-            "time": "2016-08-20 10:33:10"
+            "time": "2016-12-07 01:42:46"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -3678,17 +3677,10 @@
             "time": "2016-11-23 20:04:58"
         }
     ],
-    "aliases": [
-        {
-            "alias": "v1.0.0",
-            "alias_normalized": "1.0.0.0",
-            "version": "9999999-dev",
-            "package": "harryosmar/plugin-survey-common"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "harryosmar/plugin-survey-common": 20
+        "harryosmar/plugin-kurir-common": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

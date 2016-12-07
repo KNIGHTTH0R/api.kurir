@@ -87,7 +87,7 @@ class AuthController extends Controller
         }
 
         $user = UsersModel::where('email', $request->email)
-            ->where('password', \PluginCommonSurvey\Helper\Hashed\hash_password($request->password))
+            ->where('password', \App\Helper\Hashed\hash_password($request->password))
             ->first();
 
         if(empty($user) || count($user) === 0){
@@ -96,7 +96,7 @@ class AuthController extends Controller
 
         try {
             /** @var SessionToken $sessionToken */
-            $sessionToken = AuthToken::getFreshInstance($user->id, \PluginCommonSurvey\Helper\Hashed\hash_password($request->password))->getSessionToken();
+            $sessionToken = AuthToken::getFreshInstance($user->id, \App\Helper\Hashed\hash_password($request->password))->getSessionToken();
         }catch(\Exception $e){
             return $this->response->errorInternalError($e->getMessage());
         }

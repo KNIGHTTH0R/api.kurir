@@ -4,8 +4,8 @@ namespace App;
 
 use app\Libraries\Structure\SessionToken;
 use Illuminate\Http\Request;
-use PluginCommonSurvey\Libraries\ApiClient;
-use PluginCommonSurvey\Libraries\Codes;
+use PluginCommonKurir\Libraries\ApiClient;
+use PluginCommonKurir\Libraries\Codes;
 
 trait TraitAuth
 {
