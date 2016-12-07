@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use App\TraitPrivilegeMiddleware;
 
-class LoggedPrivilegeMiddleware
+class KurirAndCustomerPrivilegeMiddleware
 {
 
     use TraitPrivilegeMiddleware;
@@ -12,7 +12,6 @@ class LoggedPrivilegeMiddleware
     private function checkAccessByUserType(){
         return in_array($this->sessionToken->getAttribute('user_type'), [
             KurirPrivilegeMiddleware::USER_TYPE_ALLOWED,
-            AdminPrivilegeMiddleware::USER_TYPE_ALLOWED,
             CustomerPrivilegeMiddleware::USER_TYPE_ALLOWED
         ]);
     }

@@ -10,10 +10,11 @@ class Users extends \League\Fractal\TransformerAbstract
             'name' => $users->name,
             'email' => $users->email,
             'phone_number' => $users->phone_number,
-            'password' => $users->password,
             'type' => $users->type,
-            'created_at' => $users->created_at,
-            'updated_at' => $users->updated_at,
+            'timestamp' => [
+                'created' => $users->created_at, //$user->created_at->toDateTimeString()
+                'updated' => $users->updated_at, //$user->updated_at->toDateTimeString()
+            ]
         ];
     }
 }
