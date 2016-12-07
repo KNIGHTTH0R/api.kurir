@@ -4,18 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class UsersController extends Controller
+class UsersController extends BaseController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return ['a' => 'b'];
-    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -33,17 +23,6 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        return ['c' => 'd'];
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
     {
         //
     }
@@ -80,5 +59,20 @@ class UsersController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    protected function getModelName()
+    {
+        return \App\Users::class;
+    }
+
+    protected function getModelLabel()
+    {
+        return 'users';
+    }
+
+    protected function getTransformer()
+    {
+        return new \App\Transformer\Users();
     }
 }
