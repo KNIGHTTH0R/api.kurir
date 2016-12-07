@@ -13,6 +13,7 @@ class UsersTableSeeder extends Seeder
     {
         DB::table('users')->insert([
                 [
+                    'id' => 1,
                     'name' => 'harry',
                     'email' => 'harry@gmail.com',
                     'phone_number' => '+6281397738684',
@@ -20,6 +21,7 @@ class UsersTableSeeder extends Seeder
                     'type' => 'admin'
                 ],
                 [
+                    'id' => 2,
                     'name' => 'robin',
                     'email' => 'robin@gmail.com',
                     'phone_number' => '+6281309876765',
@@ -27,6 +29,7 @@ class UsersTableSeeder extends Seeder
                     'type' => 'kurir'
                 ],
                 [
+                    'id' => 3,
                     'name' => 'angie',
                     'email' => 'angie@gmail.com',
                     'phone_number' => '+62085234126754',

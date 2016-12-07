@@ -18,6 +18,8 @@ class ItemsTableSeeder extends Seeder
                 'receiver_phone_number' => '+625254318976',
                 'pickup_address' => 'gajahmada plaza, sawah besar, jakarta pusat',
                 'destination_address' => 'pasaraya blok m, jakarta selatan',
+                'id_customer' => 3,
+                'id_kurir' => null,
                 'status' => 'new',
             ],
             [
@@ -26,7 +28,9 @@ class ItemsTableSeeder extends Seeder
                 'receiver_phone_number' => '+621309876549',
                 'pickup_address' => 'Mangga 2 square, Jakarta pusat',
                 'destination_address' => 'cinere mall, depok jawa barat',
-                'status' => 'new',
+                'id_kurir' => 2,
+                'id_customer' => 3,
+                'status' => 'on_progress',
             ],
             [
                 'name' => 'nasi goreng bakmi gm',
@@ -34,7 +38,9 @@ class ItemsTableSeeder extends Seeder
                 'receiver_phone_number' => '+621344553322',
                 'pickup_address' => 'Bakmi GM blok m, seberang menara sentraya',
                 'destination_address' => 'pom bensin radio dalam',
-                'status' => 'new',
+                'id_kurir' => 2,
+                'id_customer' => 3,
+                'status' => 'sent',
             ]
         ]);
     }
