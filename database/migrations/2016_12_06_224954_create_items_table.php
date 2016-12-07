@@ -21,7 +21,7 @@ class CreateItemsTable extends Migration
             $table->string('receiver_phone_number', 15);
             $table->text('pickup_address');
             $table->text('destination_address');
-            $table->integer('id_kurir')->unsigned();
+            $table->integer('id_kurir')->unsigned()->nullable();
             $table->enum('status', ['new','on_progress', 'sent'])->default('new');
             $table->index(['id_kurir']);
             $table->timestamps();
