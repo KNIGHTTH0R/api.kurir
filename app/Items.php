@@ -14,6 +14,16 @@ class Items extends Model
 
     protected $connection = 'mysql';
 
+    public function Kurir()
+    {
+        return $this->belongsTo('App\Users', 'id_kurir', 'id');
+    }
+
+    public function Customer()
+    {
+        return $this->belongsTo('App\Users', 'id_customer', 'id');
+    }
+
     public function scopeOfStatus($query, $status)
     {
         return $query->where('status', $status);

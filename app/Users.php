@@ -18,4 +18,14 @@ class Users extends Model
     {
         return $query->where('type', $type);
     }
+
+    public function CustomerItems()
+    {
+        return $this->hasMany('App\Items', 'id_customer', 'id');
+    }
+
+    public function KurirItems()
+    {
+        return $this->hasMany('App\Items', 'id_kurir', 'id');
+    }
 }
