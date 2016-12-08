@@ -60,10 +60,22 @@ abstract class BaseController extends Controller
 
     protected function filter(Response $response, Request $request)
     {
-        $models = call_user_func_array(
-            $this->getModelName() . '::ofType',
-            [$request->filter]
-        )->paginate($this->getPerPage());
+        if (!preg_match('/^\w+:\w+$/i', $request->filter)) {
+            return $response->errorWrongArgs('wrong filter arg, must be "?filter=type:value"');
+        }
+
+        $filter = explode(':', $request->filter);
+        $filter_type = $filter[0];
+        $filter_value = $filter[1];
+
+        try {
+            $models = call_user_func_array(
+                $this->getModelName() . '::' . $filter_type,
+                [$filter_value]
+            )->paginate($this->getPerPage());
+        } catch (\BadMethodCallException $e) {
+            return $response->errorWrongArgs('wrong filter arg, invalid filter type ' . $filter_type);
+        }
 
         if (empty($models) || count($models) === 0) {
             return $response->errorNotFound([
