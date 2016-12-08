@@ -60,7 +60,7 @@ abstract class BaseController extends Controller
 
     protected function filter(Response $response, Request $request)
     {
-        if (!preg_match('/^\w+:\w+$/i', $request->filter)) {
+        if (!preg_match('/^[a-zA-Z0-9]+:[a-zA-Z0-9]+$/', $request->filter)) {
             return $response->errorWrongArgs('wrong filter arg, must be "?filter=type:value"');
         }
 
