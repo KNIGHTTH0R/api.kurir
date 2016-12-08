@@ -13,6 +13,16 @@ class UsersController extends BaseController
     use TraitValidate;
 
     /**
+     * @var bool
+     */
+    private $skipEmailChecking = false;
+
+    /**
+     * @var bool
+     */
+    private $skipPasswordChecking = false;
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -30,7 +40,10 @@ class UsersController extends BaseController
      */
     public function store(Request $request, Response $response)
     {
-        if(!$this->runValidation($request, $this->getValidationRules())){
+        if (!$this->runValidation(
+            $request->all(),
+            $this->getValidationRules('store')
+        )) {
             return $response->errorInternalError($this->validator->errors()->all());
         }
 
@@ -80,12 +93,37 @@ class UsersController extends BaseController
         }
 
         $user->name = $request->input('user.name') ? $request->input('user.name') : $user->name;
-        $user->email = $request->input('user.email') ? $request->input('user.email'): $user->email;
         $user->phone_number = $request->input('user.phone_number') ? $request->input('user.phone_number') : $user->phone_number;
         $user->type = $request->input('user.type') ? $request->input('user.type') : $user->type;
-        $user->password = \App\Helper\Hashed\hash_password($request->input('user.password'));
+
+        // determine if password checking is skipped
+        $inputPassword = $request->input('user.password');
+        if ($inputPassword) {
+            $user->password = \App\Helper\Hashed\hash_password($inputPassword);
+        } else {
+            $this->skipPasswordChecking = true;
+        }
+
+        // determine if email checking is skipped
+        $inputEmail = $request->input('user.email');
+        if (!$inputEmail || ($inputEmail && $user->email === $inputEmail)) {
+            $this->skipEmailChecking = true;
+        } else {
+            $user->email = $inputEmail;
+        }
+
+        if (!$this->runValidation(
+            ['user' => array_merge(
+                $user->toArray(),
+                ['confirm_password' => \App\Helper\Hashed\hash_password($request->input('user.confirm_password'))]
+            )],
+            $this->getValidationRules('update')
+        )) {
+            return $response->errorInternalError($this->validator->errors()->all());
+        }
 
         $user->save();
+
         return $response->setStatusCode(Codes::SUCCESS)->withArray([
             'success' => [
                 'code' => Codes::SUCCESS,
@@ -94,15 +132,21 @@ class UsersController extends BaseController
         ]);
     }
 
-    private function getValidationRules(){
+    private function getValidationRules($action){
         $rules =  [
             'user.name' => 'required|max:150',
-            'user.email' => 'required|max:250|email|unique:users,email',
             'user.phone_number' => 'required|max:15',
             'user.type' => 'required|in:' . UserModel::TYPE_ADMIN . ',' . UserModel::TYPE_CUSTOMER . ',' . UserModel::TYPE_KURIR,
             'user.password' => 'required|min:5',
-            'user.confirm_password' => 'required|min:5|same:user.password',
         ];
+
+        if ($this->skipPasswordChecking === false) {
+            $rules['user.confirm_password'] = 'required|min:5|same:user.password';
+        }
+
+        if ($this->skipEmailChecking === false) {
+            $rules['user.email'] = 'required|max:250|email|unique:users,email';
+        }
 
         return $rules;
     }

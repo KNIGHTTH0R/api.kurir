@@ -28,7 +28,7 @@ class AuthController extends Controller
 
     // TODO this has been deprecated
     public function store(Request $request){
-        if(!$this->runValidation($request, [
+        if(!$this->runValidation($request->all(), [
             'user_id' => 'required|integer|exists:users,id',
             'client_id' => 'required',
             'secret_code' => 'required',
@@ -52,7 +52,7 @@ class AuthController extends Controller
 
     // TODO still need to implement this
     public function refresh(Request $request){
-        if(!$this->runValidation($request, [
+        if(!$this->runValidation($request->all(), [
             'refresh_token' => 'required',
         ])){
             return $this->response->errorWrongArgs([$this->validator->errors()->all()]);
@@ -73,7 +73,7 @@ class AuthController extends Controller
     }
 
     public function grantpassword(Request $request){
-        if(!$this->runValidation($request, [
+        if(!$this->runValidation($request->all(), [
             'email' => 'required|max:50|email|exists:users,email',
             'password' => 'required|min:5',
             'client_id' => 'required',
@@ -105,7 +105,7 @@ class AuthController extends Controller
     }
 
     public function grantpasswordhashed(Request $request){
-        if(!$this->runValidation($request, [
+        if(!$this->runValidation($request->all(), [
             'user_id' => 'required|integer|exists:users,id',
             'hashed_password' => 'required',
             'client_id' => 'required',
