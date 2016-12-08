@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Users extends Model
 {
+
+    const TYPE_ADMIN = 'admin';
+    const TYPE_CUSTOMER = 'customer';
+    const TYPE_KURIR = 'kurir';
+
     protected $table = 'users';
 
     protected $primaryKey = 'id';

@@ -51,7 +51,7 @@ Route::group(['middleware' => ['authapi']], function () {
         ]]);
     });
 
-    # Auth Controller
+    # Auth
     Route::resource('/auth/token', 'AuthController', ['only' => [
         'store', 'show'
     ]]);

@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Items extends Model
 {
+    const STATUS_NEW = 'new';
+    const STATUS_PROGRESS = 'on_progress';
+    const STATUS_SENT = 'sent';
+
     protected $table = 'items';
 
     protected $primaryKey = 'id';
