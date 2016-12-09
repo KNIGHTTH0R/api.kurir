@@ -25,6 +25,17 @@ class ItemsController extends BaseController
      */
     public function store(Request $request, Response $response)
     {
+        /** @var SessionToken $sessionToken */
+        $sessionToken = $request->loggedUser;
+
+        if ($sessionToken->getUserType() === CustomerPrivilegeMiddleware::USER_TYPE_ALLOWED) {
+            $item = $request->item;
+            $item['id_customer'] = $sessionToken->getUserId();
+            $request->merge([
+                'item' => $item
+            ]);
+        }
+
         if (!$this->runValidation(
             $request->all(),
             $this->getValidationRules()
@@ -40,8 +51,8 @@ class ItemsController extends BaseController
         $item->receiver_phone_number = $request->input('item.receiver_phone_number');
         $item->pickup_address = $request->input('item.pickup_address');
         $item->destination_address = $request->input('item.destination_address');
-        $item->id_customer = $request->input('item.id_customer');
         $item->id_kurir = $request->input('item.id_kurir');
+        $item->id_customer = $request->input('item.id_customer');
 
         $item->save();
 
@@ -108,7 +119,7 @@ class ItemsController extends BaseController
 
         if (!$this->runValidation(
             ['item' => $item->toArray()],
-            $this->getValidationRules()
+            $this->getValidationRules('update')
         )) {
             return $response->errorInternalError($this->validator->errors()->all());
         }
@@ -134,7 +145,7 @@ class ItemsController extends BaseController
         //
     }
 
-    protected function getValidationRules()
+    protected function getValidationRules($action = 'store')
     {
         $rules =  [
             'item.name' => 'required|max:500',
@@ -143,11 +154,14 @@ class ItemsController extends BaseController
             'item.pickup_address' => 'required',
             'item.destination_address' => 'required',
             'item.status' => 'in:' . ItemsModel::STATUS_NEW. ',' . ItemsModel::STATUS_PROGRESS . ',' . ItemsModel::STATUS_SENT ,
-            'item.id_customer' => 'required|exists:users,id,type,customer',
-            'item.id_kurir' => 'required|exists:users,id,type,kurir',
+            'item.id_customer' => 'required|exists:users,id,type,customer'
         ];
 
-        return $rules;
+        if ($action === 'update') {
+            $rules['item.id_kurir'] = 'required|exists:users,id,type,kurir';
+        }
+
+            return $rules;
     }
 
     protected function getModelName()
