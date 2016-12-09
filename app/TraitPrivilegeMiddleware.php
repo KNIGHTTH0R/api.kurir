@@ -24,16 +24,20 @@ trait TraitPrivilegeMiddleware
     private function responseInvalidToken()
     {
         return response()->json([
-            'code' => Codes::INVALID_TOKEN,
-            'message' => trans('your token is invalid or has been expired'),
+            'error' => [
+                'code' => Codes::INVALID_TOKEN,
+                'message' => trans('your token is invalid or has been expired'),
+            ]
         ])->setStatusCode(401);
     }
 
     private function responseUnathorizedAccess()
     {
         return response()->json([
-            'code' => Codes::UNAUTHORIZED_ACCESS,
-            'message' => trans('unathorized access for this endpoint, or you access an item that\' not belong to you')
+            'error' => [
+                'code' => Codes::UNAUTHORIZED_ACCESS,
+                'message' => trans('unathorized access for this endpoint, or you access an item that\' not belong to you')
+            ]
         ])->setStatusCode(401);
     }
 

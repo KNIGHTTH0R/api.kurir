@@ -27,14 +27,17 @@ class CustomerKurirItemPrivilegeMiddleware
         $item = ItemsModel::find(['id' => $id])->first();
         $request->item = $item;
 
-        if ($sessionToken->getUserType() === CustomerPrivilegeMiddleware::USER_TYPE_ALLOWED && $item->id_customer !== $this->sessionToken->getAttribute('user_id')) {
+        if ($sessionToken->getUserType() === CustomerPrivilegeMiddleware::USER_TYPE_ALLOWED
+            && $item->id_customer !== $this->sessionToken->getAttribute('user_id')
+        ) {
             return false;
         }
 
         if (
             $sessionToken->getUserType() === KurirPrivilegeMiddleware::USER_TYPE_ALLOWED
             && !is_null($item->id_kurir)
-            && $item->id_kurir !== $this->sessionToken->getAttribute('user_id')) {
+            && $item->id_kurir !== $this->sessionToken->getAttribute('user_id')
+        ) {
             return false;
         }
 

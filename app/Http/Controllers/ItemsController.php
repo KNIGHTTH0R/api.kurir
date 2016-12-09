@@ -73,6 +73,18 @@ class ItemsController extends BaseController
             return $response->errorNotFound(trans('item not found'));
         }
 
+
+        if ($sessionToken->getUserType() === KurirPrivilegeMiddleware::USER_TYPE_ALLOWED) {
+            $itemOnProgress = ItemsModel::find([
+                'id_kurir' => $sessionToken->getUserId(),
+                'status' => ItemsModel::STATUS_PROGRESS
+            ])->first();
+            if (!is_null($itemOnProgress)) {
+                return $response->errorUnwillingToProcess(trans('you still got item to deliver'));
+            }
+        }
+
+
         $item->name = $request->input('item.name') ? $request->input('item.name') : $item->name;
         $item->receiver_name = $request->input('item.receiver_name') ? $request->input('item.receiver_name') : $item->receiver_name;
         $item->receiver_phone_number = $request->input('item.receiver_phone_number') ? $request->input('item.receiver_phone_number') : $item->receiver_phone_number;
