@@ -133,6 +133,12 @@ abstract class BaseController extends Controller
 
     abstract protected function getModelLabel();
 
+    abstract public function store(Request $request, Response $response);
+
+    abstract public function update(Request $request, Response $response, $id);
+
+    abstract protected function getValidationRules();
+
     /**
      * @return \League\Fractal\TransformerAbstract
      */

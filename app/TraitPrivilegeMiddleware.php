@@ -2,9 +2,9 @@
 
 namespace App;
 
-use App\Http\Requests;
 use app\Libraries\Structure\SessionToken;
 use Closure;
+use Illuminate\Http\Request;
 use PluginCommonKurir\Libraries\Codes;
 
 trait TraitPrivilegeMiddleware
@@ -14,27 +14,31 @@ trait TraitPrivilegeMiddleware
      */
     private $sessionToken;
 
-    private function checkIsValidToken(\Illuminate\Http\Request $request, Closure $next){
+    private function checkIsValidToken(Request $request, Closure $next)
+    {
         /** @var SessionToken $sessionToken */
         $this->sessionToken = AuthToken::getInstanceFromAccessToken($request->bearerToken())->getSessionToken();
         return $this->sessionToken ? true : false;
     }
 
-    private function responseInvalidToken(){
+    private function responseInvalidToken()
+    {
         return response()->json([
             'code' => Codes::INVALID_TOKEN,
             'message' => trans('your token is invalid or has been expired'),
         ])->setStatusCode(401);
     }
 
-    private function responseUnathorizedAccess(){
+    private function responseUnathorizedAccess()
+    {
         return response()->json([
             'code' => Codes::UNAUTHORIZED_ACCESS,
-            'message' => trans('Unathorized access for this endpoint')
+            'message' => trans('unathorized access for this endpoint, or you access an item that\' not belong to you')
         ])->setStatusCode(401);
     }
 
-    private function checkAccessByUserType(){
+    private function checkAccessByUserType(Request $request)
+    {
         /** TODO : you can override this return value on the route middleware */
         return true;
     }
@@ -47,7 +51,7 @@ trait TraitPrivilegeMiddleware
         }
 
         // Unauthorized access
-        if(!$this->checkAccessByUserType()){
+        if(!$this->checkAccessByUserType($request)){
             return $this->responseUnathorizedAccess();
         }
 

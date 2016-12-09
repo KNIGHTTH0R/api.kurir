@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\TraitPrivilegeMiddleware;
+use Illuminate\Http\Request;
 
 class KurirPrivilegeMiddleware
 {
@@ -11,7 +12,8 @@ class KurirPrivilegeMiddleware
 
     CONST USER_TYPE_ALLOWED = 'kurir';
 
-    private function checkAccessByUserType(){
+    private function checkAccessByUserType(Request $request)
+    {
         return $this->sessionToken->getAttribute('user_type') === self::USER_TYPE_ALLOWED;
     }
 }

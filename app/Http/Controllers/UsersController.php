@@ -23,26 +23,17 @@ class UsersController extends BaseController
     private $skipPasswordChecking = false;
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
+     * @param Response $response
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, Response $response)
     {
         if (!$this->runValidation(
             $request->all(),
-            $this->getValidationRules('store')
+            $this->getValidationRules()
         )) {
             return $response->errorInternalError($this->validator->errors()->all());
         }
@@ -67,20 +58,11 @@ class UsersController extends BaseController
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-    }
-
-    /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param Response $response
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Response $response, $id)
@@ -117,7 +99,7 @@ class UsersController extends BaseController
                 $user->toArray(),
                 ['confirm_password' => \App\Helper\Hashed\hash_password($request->input('user.confirm_password'))]
             )],
-            $this->getValidationRules('update')
+            $this->getValidationRules()
         )) {
             return $response->errorInternalError($this->validator->errors()->all());
         }
@@ -132,7 +114,8 @@ class UsersController extends BaseController
         ]);
     }
 
-    private function getValidationRules($action){
+    protected function getValidationRules()
+    {
         $rules =  [
             'user.name' => 'required|max:150',
             'user.phone_number' => 'required|max:15',

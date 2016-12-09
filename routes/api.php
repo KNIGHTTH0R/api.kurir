@@ -22,19 +22,19 @@ Route::group(['middleware' => ['authapi']], function () {
     # Admin
     Route::group(['middleware' => ['\App\Http\Middleware\AdminPrivilegeMiddleware']], function () {
         Route::resource('users', 'UsersController', ['only' => [
-            'store', 'destroy', 'update'
+            'destroy', 'update'
         ]]);
     });
 
     # Customer
-    Route::group(['middleware' => ['\App\Http\Middleware\LoggedPrivilegeMiddleware']], function () {
+    Route::group(['middleware' => ['\App\Http\Middleware\CustomerPrivilegeMiddleware']], function () {
         Route::resource('items', 'ItemsController', ['only' => [
             'store', 'destroy'
         ]]);
     });
 
-    # Kurir and Customer
-    Route::group(['middleware' => ['\App\Http\Middleware\KurirAndCustomerPrivilegeMiddleware']], function () {
+    # Customer & kurir item
+    Route::group(['middleware' => ['\App\Http\Middleware\CustomerKurirItemPrivilegeMiddleware']], function () {
         Route::resource('items', 'ItemsController', ['only' => [
             'update'
         ]]);
@@ -51,12 +51,17 @@ Route::group(['middleware' => ['authapi']], function () {
         ]]);
     });
 
-    # Auth
+    # public login auth
     Route::resource('/auth/token', 'AuthController', ['only' => [
         'store', 'show'
     ]]);
     Route::post('/auth/token/password', ['as' => 'auth.token.grantpassword', 'uses' => 'AuthController@grantpassword']);
     Route::post('/auth/token/passwordhashed', ['as' => 'auth.token.grantpasswordhashed', 'uses' => 'AuthController@grantpasswordhashed']);
     Route::put('/auth/token/refresh', ['as' => 'auth.token.refresh', 'uses' => 'AuthController@refresh']);
+
+    # public register
+    Route::resource('users', 'UsersController', ['only' => [
+        'store'
+    ]]);
 
 });
