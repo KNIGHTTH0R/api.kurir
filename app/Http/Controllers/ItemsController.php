@@ -74,7 +74,7 @@ class ItemsController extends BaseController
         }
 
 
-        if ($sessionToken->getUserType() === KurirPrivilegeMiddleware::USER_TYPE_ALLOWED) {
+        if ($sessionToken->getUserType() === KurirPrivilegeMiddleware::USER_TYPE_ALLOWED && $request->status === ItemsModel::STATUS_PROGRESS) {
             $itemOnProgress = ItemsModel::find([
                 'id_kurir' => $sessionToken->getUserId(),
                 'status' => ItemsModel::STATUS_PROGRESS
