@@ -86,6 +86,6 @@ return [
     |
     */
 
-    'prefix' => 'kurir',
+    'prefix' => 'api:kurir',
 
 ];
