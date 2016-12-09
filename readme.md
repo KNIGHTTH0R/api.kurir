@@ -37,7 +37,7 @@ Laravel development server started on http://localhost:8001/
 ```
 
 ### Note
-API endpoints list shared by `postman` connection link : link https://www.getpostman.com/collections/77c503026058ca1ed41c
+API endpoints list shared by `postman` connection link : https://www.getpostman.com/collections/77c503026058ca1ed41c
 Set the postman environment variables
 ```
 host:localhost
