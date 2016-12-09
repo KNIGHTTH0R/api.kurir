@@ -50,6 +50,9 @@ trait TraitPrivilegeMiddleware
             return $this->responseInvalidToken();
         }
 
+        // set user type to request
+        $request->loggedUser = $this->sessionToken;
+
         // Unauthorized access
         if(!$this->checkAccessByUserType($request)){
             return $this->responseUnathorizedAccess();

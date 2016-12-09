@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use app\Libraries\Structure\SessionToken;
 use App\TraitPrivilegeMiddleware;
 use Illuminate\Http\Request;
 use App\Items as ItemsModel;
@@ -13,9 +14,10 @@ class CustomerKurirItemPrivilegeMiddleware
 
     private function checkAccessByUserType(Request $request)
     {
-        $userTypeSession = $this->sessionToken->getAttribute('user_type');
+        /** @var SessionToken $sessionToken */
+        $sessionToken = $request->loggedUser;
 
-        if (!in_array($userTypeSession, [CustomerPrivilegeMiddleware::USER_TYPE_ALLOWED, KurirPrivilegeMiddleware::USER_TYPE_ALLOWED])) {
+        if (!in_array($sessionToken->getUserType(), [CustomerPrivilegeMiddleware::USER_TYPE_ALLOWED, KurirPrivilegeMiddleware::USER_TYPE_ALLOWED])) {
             return false;
         }
 
@@ -23,12 +25,16 @@ class CustomerKurirItemPrivilegeMiddleware
 
         /** @var ItemsModel $item */
         $item = ItemsModel::find(['id' => $id])->first();
+        $request->item = $item;
 
-        if ($userTypeSession === CustomerPrivilegeMiddleware::USER_TYPE_ALLOWED && $item->id_customer !== $this->sessionToken->getAttribute('user_id')) {
+        if ($sessionToken->getUserType() === CustomerPrivilegeMiddleware::USER_TYPE_ALLOWED && $item->id_customer !== $this->sessionToken->getAttribute('user_id')) {
             return false;
         }
 
-        if ($userTypeSession === KurirPrivilegeMiddleware::USER_TYPE_ALLOWED && $item->id_kurir !== $this->sessionToken->getAttribute('user_id')) {
+        if (
+            $sessionToken->getUserType() === KurirPrivilegeMiddleware::USER_TYPE_ALLOWED
+            && !is_null($item->id_kurir)
+            && $item->id_kurir !== $this->sessionToken->getAttribute('user_id')) {
             return false;
         }
 

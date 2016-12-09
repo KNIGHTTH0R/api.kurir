@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\CustomerPrivilegeMiddleware;
+use App\Http\Middleware\KurirPrivilegeMiddleware;
+use app\Libraries\Structure\SessionToken;
 use App\TraitValidate;
 use EllipseSynergie\ApiResponse\Contracts\Response;
 use Illuminate\Http\Request;
@@ -61,7 +64,10 @@ class ItemsController extends BaseController
     public function update(Request $request, Response $response, $id)
     {
         /** @var ItemsModel $item */
-        $item = ItemsModel::find(['id' => $id])->first();
+        $item = $request->item;
+
+        /** @var SessionToken $sessionToken */
+        $sessionToken = $request->loggedUser;
 
         if (is_null($item)) {
             return $response->errorNotFound(trans('item not found'));
@@ -73,8 +79,18 @@ class ItemsController extends BaseController
         $item->status = $request->input('item.status') ? $request->input('item.status') : $item->status;
         $item->pickup_address = $request->input('item.pickup_address') ? $request->input('item.pickup_address') : $item->pickup_address;
         $item->destination_address = $request->input('item.destination_address') ? $request->input('item.destination_address') : $item->destination_address;
-        $item->id_customer = $request->input('item.id_customer') ? $request->input('item.id_customer') : $item->id_customer;
-        $item->id_kurir = $request->input('item.id_kurir') ? $request->input('item.id_kurir') : $item->id_kurir;
+
+        if ($sessionToken->getUserType() === CustomerPrivilegeMiddleware::USER_TYPE_ALLOWED) {
+            $item->id_customer = $sessionToken->getUserId();
+        } else {
+            $item->id_customer = $request->input('item.id_customer') ? $request->input('item.id_customer') : $item->id_customer;
+        }
+
+        if ($sessionToken->getUserType() === KurirPrivilegeMiddleware::USER_TYPE_ALLOWED) {
+            $item->id_kurir = $sessionToken->getUserId();
+        } else {
+            $item->id_kurir = $request->input('item.id_kurir') ? $request->input('item.id_kurir') : $item->id_kurir;
+        }
 
 
         if (!$this->runValidation(
