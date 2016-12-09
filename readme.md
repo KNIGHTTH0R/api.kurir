@@ -44,6 +44,10 @@ host:localhost
 port:8001
 ```
 
+### Wiki
+https://github.com/harryosmar/api.kurir/wiki/PUT-item
+
+
 
 ## About
 
