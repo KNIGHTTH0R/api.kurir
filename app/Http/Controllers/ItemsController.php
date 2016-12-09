@@ -78,10 +78,8 @@ class ItemsController extends BaseController
             $sessionToken->getUserType() === KurirPrivilegeMiddleware::USER_TYPE_ALLOWED
             && $request->input('item.status') === ItemsModel::STATUS_PROGRESS
         ) {
-            $itemOnProgress = ItemsModel::find([
-                'id_kurir' => $sessionToken->getUserId(),
-                'status' => ItemsModel::STATUS_PROGRESS
-            ])->first();
+            $itemOnProgress = ItemsModel::where('id_kurir', $sessionToken->getUserId())
+                ->where('status', ItemsModel::STATUS_PROGRESS)->first();
             if (!is_null($itemOnProgress)) {
                 return $response->errorUnwillingToProcess(trans('you still got item to deliver'));
             }
