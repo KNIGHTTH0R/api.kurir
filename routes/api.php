@@ -13,9 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
-//Route::get('/user', function (Request $request) {
-//    return $request->user();
-//})->middleware('auth:api');
+Route::get('/', function (\EllipseSynergie\ApiResponse\Contracts\Response $response) {
+    return $response->errorNotFound();
+});
 
 
 Route::group(['middleware' => ['authapi']], function () {
