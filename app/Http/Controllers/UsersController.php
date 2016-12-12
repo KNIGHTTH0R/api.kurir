@@ -119,7 +119,7 @@ class UsersController extends BaseController
         $rules =  [
             'user.name' => 'required|max:150',
             'user.phone_number' => 'required|max:15',
-            'user.type' => 'required|in:' . UserModel::TYPE_ADMIN . ',' . UserModel::TYPE_CUSTOMER . ',' . UserModel::TYPE_KURIR,
+            'user.type' => 'required|in:' . UserModel::TYPE_CUSTOMER . ',' . UserModel::TYPE_KURIR,
             'user.password' => 'required|min:5',
         ];
 
